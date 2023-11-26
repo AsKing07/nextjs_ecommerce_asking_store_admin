@@ -33,4 +33,3 @@ export default function  Layout({children}){
 }
 
 
-///pages/api/auth/[...nextauth].js
