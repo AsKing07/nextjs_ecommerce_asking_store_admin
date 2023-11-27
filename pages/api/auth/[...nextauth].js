@@ -17,6 +17,7 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: async ({session,token,user}) => {
+      await mongooseConnect(); // Connexion à MongoDB
       const admin = await Admin.findOne({ email: session.user.email });
 
       if (admin || session.user.email==="charbelsnn@gmail.com") {
