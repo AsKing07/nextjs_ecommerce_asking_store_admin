@@ -26,6 +26,7 @@ export default async function handle(req, res)
             secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
             }
     });
+    
     const links = [];
     for (const file of files.file) {
         const ext = file.originalFilename.split('.').pop();
