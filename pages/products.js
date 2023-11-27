@@ -1,13 +1,18 @@
 import Layout from "@/components/Layout";
+import Spinner from "@/components/Spinner";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Products(){
     const [products, setProducts] = useState([])
+    const [isloading, setIsLoading]= useState(false)
+
     useEffect(() => {
+        setIsLoading(true);
         axios.get('/api/products').then(response => {
           setProducts(response.data);
+          setIsLoading(false);
         });
       }, []);
     return(
@@ -15,6 +20,9 @@ export default function Products(){
             
             <Link className="bg-blue-900 rounded-md text-white py-1 px-2" href={'/products/new'}>Ajouter un nouveau produit</Link>
 
+            {isloading? <div className="flex justify-center">
+                <Spinner />
+                </div> :
             <table className="basic mt-2">
                 <thead>
                     <tr>
@@ -45,6 +53,7 @@ Supprimer </Link>
                     ))}
                 </tbody>
             </table>
+}
         </Layout>
     )
 }

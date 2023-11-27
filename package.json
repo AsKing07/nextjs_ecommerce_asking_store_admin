@@ -22,7 +22,8 @@
     "react-dom": "^18",
     "react-sortable": "^2.0.0",
     "react-sortablejs": "^6.1.4",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "react-sweetalert2": "^0.6.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
