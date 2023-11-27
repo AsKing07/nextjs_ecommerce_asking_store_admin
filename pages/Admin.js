@@ -1,72 +1,139 @@
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import axios from 'axios';
+import { withSwal } from "react-sweetalert2";
+import NextAuth from 'next-auth'
+import { useSession } from 'next-auth/react';
+import Spinner from "@/components/Spinner";
 
-export default function AdminManagement() {
+
+
+
+function AdminManagement({ swal }) {
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        if (session && session.user.email === "charbelsnn@gmail.com") {
+          setIsSuperAdmin(true);
+        }
+    
+        getAdmins();
+      }, [session]); // Assurez-vous d'inclure la session dans le tableau de dépendances useEffect si vous l'utilisez à l'intérieur
+    
+
+
+
   const [admins, setAdmins] = useState([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Fonction pour récupérer la liste des administrateurs
   const getAdmins = async () => {
     try {
-      const res = await axios.get('/api/admins'); // Endpoint à créer pour récupérer les admins depuis la base de données
+        setIsLoading(true);
+      const res = await axios.get('/api/admin');
       setAdmins(res.data);
+      setIsLoading(false);
     } catch (error) {
       console.error('Erreur lors de la récupération des administrateurs :', error);
     }
   };
 
-  // Fonction pour ajouter un nouvel administrateur
   const addAdmin = async () => {
     try {
-      await axios.post('/api/admins', { email: newAdminEmail }); // Endpoint à créer pour ajouter un nouvel admin dans la base de données
-      setNewAdminEmail(''); // Réinitialiser le champ d'entrée après l'ajout
-      getAdmins(); // Rafraîchir la liste des admins après l'ajout
+      await axios.post('/api/admin', { email: newAdminEmail });
+      setNewAdminEmail('');
+      getAdmins();
     } catch (error) {
       console.error('Erreur lors de l\'ajout de l\'administrateur :', error);
     }
   };
 
-  // Fonction pour supprimer un administrateur
   const removeAdmin = async (adminEmail) => {
-    try {
-      await axios.delete(`/api/admins/${adminEmail}`); // Endpoint à créer pour supprimer un admin de la base de données
-      getAdmins(); // Rafraîchir la liste des admins après la suppression
-    } catch (error) {
-      console.error('Erreur lors de la suppression de l\'administrateur :', error);
-    }
+    swal
+      .fire({
+        title: "Êtes-vous sûr?",
+        text: `Voulez-vous supprimer l'administrateur ${adminEmail}?`,
+        showCancelButton: true,
+        cancelButtonText: "Annuler",
+        confirmButtonText: "Oui, Supprimer!",
+        confirmButtonColor: "#d55",
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await axios.delete(`/api/admin?email=${adminEmail}`); // Utilisation de l'email directement dans la requête DELETE
+            getAdmins();
+          } catch (error) {
+            console.error('Erreur lors de la suppression de l\'administrateur :', error);
+          }
+        }
+      });
   };
 
-  useEffect(() => {
-    getAdmins(); // Charger la liste des admins lors du chargement initial de la page
-  }, []);
+
+  
+  
 
   return (
     <Layout>
       <div>
         <h1>Gestion des administrateurs</h1>
-        <div>
-          <h2>Liste des administrateurs :</h2>
-          <ul>
-            {admins.map((admin) => (
-              <li key={admin.email}>
-                {admin.email}
-                <button onClick={() => removeAdmin(admin.email)}>Supprimer</button>
-              </li>
-            ))}
-          </ul>
+        {isSuperAdmin && (
+   <div>
+   <h2>Ajouter un nouvel administrateur :</h2>
+   <input
+     type="email"
+     placeholder="Adresse email de l'administrateur"
+     value={newAdminEmail}
+     onChange={(e) => setNewAdminEmail(e.target.value)}
+   />
+   <button className='btn-primary' onClick={addAdmin}>Ajouter</button>
+ </div>
+        )}
+
+      {isLoading? <div className="flex justify-center">
+                <Spinner />
+                </div> :
+        <div class="table-container">    
+          <table className="basic mt-2">
+          <caption><h2>Liste des administrateurs </h2></caption>
+          <caption>    <p>Pour supprimer ou ajouter des utilisateurs, veuillez contacter le SuperAdmin charbelsnn@gmail.com</p>
+</caption>
+            <thead>
+              <tr>
+                <th>Email</th>
+                {isSuperAdmin &&(
+                    <th>Actions</th>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {admins.map((admin) => (
+                <tr key={admin.email}>
+                  <td>{admin.email}</td>
+                
+                    {isSuperAdmin &&(
+                          <td>
+                    <button className='btn-red'  onClick={() => removeAdmin(admin.email)}>Supprimer</button>
+                    </td>
+                    )}
+                  
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div class="table-legend">
+  </div>
         </div>
-        <div>
-          <h2>Ajouter un nouvel administrateur :</h2>
-          <input
-            type="email"
-            placeholder="Adresse email de l'administrateur"
-            value={newAdminEmail}
-            onChange={(e) => setNewAdminEmail(e.target.value)}
-          />
-          <button onClick={addAdmin}>Ajouter</button>
-        </div>
+}
+       
       </div>
     </Layout>
   );
 }
+
+
+export default withSwal(({ swal }, ref) => <AdminManagement swal={swal} />);
+
