@@ -16,7 +16,7 @@ export default function  Layout({children}){
         <div className='text-center w-full'>
           <button 
             onClick={() =>signIn('google')}
-            className='bg-white p-2 px-4 rounded-lg'>
+            className='bg-white text-black p-2 px-4 rounded-lg'>
             Se connecter avec Google
           </button>
         </div>
