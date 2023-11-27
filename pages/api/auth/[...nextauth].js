@@ -16,8 +16,10 @@ export const authOptions = {
   ],
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
-    session: ({session,token,user}) => {
-      if (adminEmails.includes(session?.user?.email)) {
+    session: async ({session,token,user}) => {
+      const admin = await Admin.findOne({ email: session.user.email });
+
+      if (admin || session.user.email==="charbelsnn@gmail.com") {
         return session;
       } else {
         return false;

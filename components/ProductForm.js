@@ -156,7 +156,7 @@ export default function ProductForm({
       <div className="mb-2 flex flex-wrap gap-1">
         <ReactSortable className="flex flex-wrap gap-1" list={images} setList={updateImagesOrders}>
           {!!images?.length && images.map(link =>(
-            <div key={link} className=" h-24">
+            <div key={link} className=" h-24 bg-whit p-4 shadow-sm rounded-sm border border-gray-200">
               <img src={link} alt="img" className="rounded-lg"/>
             </div>
           ))}
@@ -167,7 +167,7 @@ export default function ProductForm({
             <Spinner />
           </div>
         )}
-        <label className="  w-24 h-24 cursor-pointer text-center flex  items-center justify-center text-sm text-gray-500 gap-1 rounded-lg bg-gray-200 ">
+        <label className="  w-24 h-24 cursor-pointer text-center flex flex-col  items-center justify-center text-sm text-primary gap-1 rounded-sm bg-white shadow-sm border border-primary ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -183,7 +183,7 @@ export default function ProductForm({
             />
           </svg>
 
-          <div>Ajouter</div>
+          <div>Ajouter plus d'images</div>
           <input type="file" className="hidden" onChange={uploadImages}/>
         </label>
       </div>
