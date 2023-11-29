@@ -57,6 +57,9 @@ table.basic{
 table.basic thead tr td {
 @apply text-sm text-gray-700 uppercase border-b border-gray-200 px-4 py-1;
 }
+table.basic thead tr th {
+@apply text-sm text-gray-700 uppercase border-b border-gray-200 px-4 py-1;
+}
 
 table.basic a 
 {
