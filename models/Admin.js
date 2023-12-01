@@ -7,6 +7,6 @@ const adminSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-});
+},{timestamps: true});
 
 export const Admin = models.Admin || model('Admin', adminSchema);

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import axios from 'axios';
@@ -5,6 +6,8 @@ import { withSwal } from "react-sweetalert2";
 import NextAuth from 'next-auth'
 import { useSession } from 'next-auth/react';
 import Spinner from "@/components/Spinner";
+import { prettyDate } from '@/lib/date';
+
 
 
 
@@ -39,13 +42,23 @@ function AdminManagement({ swal }) {
     }
   };
 
-  const addAdmin = async () => {
+  const addAdmin = async (e) => {
+    e.preventDefault();
     try {
       await axios.post('/api/admin', { email: newAdminEmail });
+      swal.fire({
+        title: 'Admin créé!',
+        icon: 'success',
+      });
       setNewAdminEmail('');
       getAdmins();
     } catch (error) {
       console.error('Erreur lors de l\'ajout de l\'administrateur :', error);
+      swal.fire({
+        title: 'Erreur!',
+        text: error.response.data.message,
+        icon: 'error',
+      });
     }
   };
 
@@ -64,6 +77,10 @@ function AdminManagement({ swal }) {
         if (result.isConfirmed) {
           try {
             await axios.delete(`/api/admin?email=${adminEmail}`); // Utilisation de l'email directement dans la requête DELETE
+            swal.fire({
+              title: 'Admin supprimé!',
+              icon: 'success',
+            });
             getAdmins();
           } catch (error) {
             console.error('Erreur lors de la suppression de l\'administrateur :', error);
@@ -82,37 +99,49 @@ function AdminManagement({ swal }) {
         <h1>Gestion des administrateurs</h1>
         {isSuperAdmin && (
    <div>
-   <h2>Ajouter un nouvel administrateur :</h2>
-   <input
-     type="email"
-     placeholder="Adresse email de l'administrateur"
-     value={newAdminEmail}
-     onChange={(e) => setNewAdminEmail(e.target.value)}
-   />
-   <button className='btn-primary' onClick={addAdmin}>Ajouter</button>
+   <h1>Ajouter un nouvel administrateur :</h1>
+   <form onSubmit={addAdmin}>
+        <div className="flex gap-2">
+          <input
+          required
+            type="text"
+            className="mb-0"
+            value={newAdminEmail}
+            onChange={(e) => setNewAdminEmail(e.target.value)}
+            placeholder="Email Google de l'administrateur"/>
+          <button
+            type="submit"
+            className="btn-primary py-1 whitespace-nowrap">
+            Ajouter l'adminisrateur
+          </button>
+        </div>
+      </form>
+  
  </div>
         )}
 
       {isLoading? <div className="flex justify-center">
                 <Spinner />
                 </div> :
-        <div class="table-container">    
+           
           <table className="basic mt-2">
-          <caption><h2>Liste des administrateurs </h2></caption>
+          <caption><h2>Administrateur existants </h2></caption>
           <caption>    <p>Pour supprimer ou ajouter des utilisateurs, veuillez contacter le SuperAdmin charbelsnn@gmail.com</p>
 </caption>
             <thead>
               <tr>
-                <th>Email</th>
+                <th className="text-left">Email Google Admin</th>
+                <th>Date de création</th>
                 {isSuperAdmin &&(
                     <th>Actions</th>
                 )}
               </tr>
             </thead>
             <tbody>
-              {admins.map((admin) => (
+              {admins.length > 0 && admins.map((admin) => (
                 <tr key={admin.email}>
                   <td>{admin.email}</td>
+                  <td>{admin?.createdAt && prettyDate(admin?.createdAt)}</td>
                 
                     {isSuperAdmin &&(
                           <td>
@@ -124,9 +153,8 @@ function AdminManagement({ swal }) {
               ))}
             </tbody>
           </table>
-          <div class="table-legend">
-  </div>
-        </div>
+       
+       
 }
        
       </div>

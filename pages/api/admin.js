@@ -40,9 +40,14 @@ export default async function handle(req, res)
     {
         try {
             const { email } = req.body;
-            const admin = new Admin({ email }); // Création d'un nouvel objet Admin avec l'email reçu
-            await admin.save(); // Sauvegarde du nouvel administrateur dans la base de données
-            res.status(201).json({ message: 'Administrateur ajouté avec succès', admin });
+            if (await Admin.findOne({email})) {
+              res.status(400).json({message:'Ce administrateur existe déjà!'});
+            } else {
+              const admin = new Admin({ email }); // Création d'un nouvel objet Admin avec l'email reçu
+              await admin.save(); // Sauvegarde du nouvel administrateur dans la base de données
+              res.status(201).json({ message: 'Administrateur ajouté avec succès', admin });
+            }
+           
           } catch (error) {
             res.status(500).json({ message: 'Erreur lors de l\'ajout de l\'administrateur', error });
           }
