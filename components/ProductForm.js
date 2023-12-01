@@ -15,6 +15,8 @@ export default function ProductForm({
   category:assignedCategory,
   properties:assignedProperties,
 }) {
+  const [categoriesLoading,setCategoriesLoading]= useState(false)
+
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDesccription || "");
   const [price, setPrice] = useState(existingPrice || "");
@@ -27,8 +29,10 @@ export default function ProductForm({
   const router = useRouter();
 
   useEffect(()=>{
+    setCategoriesLoading(true)
     axios.get('/api/categories').then(result =>{
       setCategories(result.data)
+      setCategoriesLoading(false)
     })
   }, [])
 
@@ -136,6 +140,9 @@ export default function ProductForm({
                      </option>
                     ))}
       </select>
+      {categoriesLoading && (
+          <Spinner />
+        )}
       {propertiesToFill.length > 0 && propertiesToFill.map(p => (
           <div key={p.name} className="">
             <label>{p.name[0].toUpperCase()+p.name.substring(1)}</label>

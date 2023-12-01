@@ -1,20 +1,27 @@
 import Layout from "@/components/Layout";
+import Spinner from "@/components/Spinner";
 import axios from "axios";
+import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 export default function OrdersPage()
 {
     const [orders,setOrders]= useState([])
+    const [isLoading,setIsLoading]= useState(false)
 
     useEffect(()=>{
+        setIsLoading(true)
             axios.get('/api/orders').then(response=>{
                     setOrders(response.data)
+                    setIsLoading(false)
             })
     },[])
     return(
         <Layout>
             <h1>Commandes</h1>
+          
 
+        
             <table className="basic">
                 <thead>
                     <th>Date</th>
@@ -23,6 +30,15 @@ export default function OrdersPage()
                     <th>Payement</th>
                 </thead>
                 <tbody>
+                {isLoading && (
+          <tr>
+            <td colSpan={4}>
+              <div className="py-4">
+                <Spinner fullWidth={true} />
+              </div>
+            </td>
+          </tr>
+        )}
                     {orders.length > 0 && orders.map(order =>(
                         <tr key={order._id}>
                             <td>
