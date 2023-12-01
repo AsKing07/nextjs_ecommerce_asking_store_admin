@@ -195,7 +195,7 @@ export default function ProductForm({
       />
       <label>Prix(en $)</label>
       <input
-        type="number"
+        type="number" step={0.01}
         placeholder="0.00"
         min="0"
         value={price}
