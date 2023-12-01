@@ -99,7 +99,7 @@ export default function ProductForm({
     const uniqueProperties = new Map();
   
     // Ajouter les propriétés de la catégorie actuelle à l'objet Map
-    catInfo.properties.forEach((property) => {
+    catInfo?.properties.forEach((property) => {
       uniqueProperties.set(property.name, property);
     });
   

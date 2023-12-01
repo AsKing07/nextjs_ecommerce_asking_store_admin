@@ -19,26 +19,38 @@ function Categories({swal}) {
     setIsLoading(true);
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
+      console.log(categories)
       setIsLoading(false);
     });
   }
   async function saveCategory(ev){
     ev.preventDefault();
-    const data = {
-      name,
-      parentCategory,
-      properties:properties.map(p => ({
-        name:p.name,
-        values:p.values.split(','),
-      })),
-    };
-    if (editedCategory) {
-      data._id = editedCategory._id;
-      await axios.put('/api/categories', data);
-      setEditedCategory(null);
-    } else {
-      await axios.post('/api/categories', data);
+    
+    const haveAlreadyParent = categories.find(cat => cat._id === parentCategory )
+    if(haveAlreadyParent?.parent)
+    {
+      alert(`La catégorie ${haveAlreadyParent?.name} est déjà une sous catégorie de ${haveAlreadyParent?.parent.name}. Impossible créer une sous catégorie d'une sous catégorie.`)
+     
     }
+    else
+    {
+      const data = {
+        name,
+        parentCategory,
+        properties:properties.map(p => ({
+          name:p.name,
+          values:p.values.split(','),
+        })),
+      };
+      if (editedCategory) {
+        data._id = editedCategory._id;
+        await axios.put('/api/categories', data);
+        setEditedCategory(null);
+      } else {
+        await axios.post('/api/categories', data);
+      }
+    }
+   
     setName('');
     setParentCategory('');
     setProperties([]);
