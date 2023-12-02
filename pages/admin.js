@@ -38,7 +38,11 @@ function AdminManagement({ swal }) {
       setAdmins(res.data);
       setIsLoading(false);
     } catch (error) {
-      console.error('Erreur lors de la récupération des administrateurs :', error);
+      swal.fire({
+        title: 'Erreur!',
+        text:`Erreur lors de la récupération des administrateurs : ${ error.response.data.message}`,
+        icon: 'error',
+      });
     }
   };
 
@@ -53,10 +57,9 @@ function AdminManagement({ swal }) {
       setNewAdminEmail('');
       getAdmins();
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de l\'administrateur :', error);
       swal.fire({
         title: 'Erreur!',
-        text: error.response.data.message,
+        text:`Erreur lors de l\'ajout de l\'administrateur : ${error.response.data.message}` ,
         icon: 'error',
       });
     }
@@ -83,7 +86,11 @@ function AdminManagement({ swal }) {
             });
             getAdmins();
           } catch (error) {
-            console.error('Erreur lors de la suppression de l\'administrateur :', error);
+            swal.fire({
+              title: 'Erreur!',
+              text:`Erreur lors de la suppression de l\'administrateur : ${error.response.data.message}` ,
+              icon: 'error',
+            });
           }
         }
       });

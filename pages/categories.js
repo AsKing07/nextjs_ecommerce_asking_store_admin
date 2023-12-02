@@ -19,7 +19,7 @@ function Categories({swal}) {
     setIsLoading(true);
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
-      console.log(categories)
+      // console.log(categories)
       setIsLoading(false);
     });
   }
