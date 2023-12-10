@@ -1,4 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+# Asking Store ADMIN
+
+The dashboard admin panel of the project [Asking Store](https://github.com/AsKing07/asking_store_frontend/tree/main)
+
+
+
+## Screenshots
+
+![1](https://github.com/AsKing07/asking_store_frontend/blob/main/1.png)
+![2](https://github.com/AsKing07/asking_store_frontend/blob/main/2.png)
+![3](https://github.com/AsKing07/asking_store_frontend/blob/main/3.png)
+
+
+## Features
+
+- All Product List
+- Create Product
+- Manage Categories of products
+- Orders list
+- Dashboard with Stats
+- Admin Management
+- Setting to define featured product
+- Setting to define shipping fee
+- And many others
+
+
+## Tech Stack
+
+**Client:** NextJs, Tailwind CSS
+
+**Server:** NextJs, MONGODB
+
+**PACKAGE:** Axios, aws-sdk/client-s3 , date-fns, mongoose, mime-types,mongodb,multiparty,react-sortable,react-sortablejs,react-spinners,
+react-sweetalert2
+
+**Database:** MongoDB
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`MONGODB_URI`:Mongo DB url
+
+`S3_ACCESS_KEY`: AWS S3 access key
+
+`S3_SECRET_ACCESS_KEY`: AWS S3 secret access
+
+`BUCKET_NAME`: AWS S3 bucket name
+
+`GOOGLE_ID`: Google Cloud Console, Credential ID you have to create a project and create credential
+
+`GOOGLE_SECRET`: Google Cloud Console, Credential secret key
+
 
 ## Getting Started
 
@@ -37,4 +90,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out our [Next.js deployment documentation]
+## Authors
+
+- [@AsKing07](https://www.github.com/AsKing07)
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
