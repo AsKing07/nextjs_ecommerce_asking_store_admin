@@ -7,9 +7,9 @@ The dashboard admin panel of the project [Asking Store](https://github.com/AsKin
 
 ## Screenshots
 
-![1](https://github.com/AsKing07/asking_store_frontend/blob/main/1.png)
-![2](https://github.com/AsKing07/asking_store_frontend/blob/main/2.png)
-![3](https://github.com/AsKing07/asking_store_frontend/blob/main/3.png)
+![1](https://github.com/AsKing07/nextjs_ecommerce_asking_store_admin/blob/master/1.png)
+![2](https://github.com/AsKing07/nextjs_ecommerce_asking_store_admin/blob/master/2.png)
+
 
 
 ## Features
